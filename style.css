@@ -8,9 +8,9 @@ body {
     margin-top: 70px;
     width: 700px;
     height: 700px;
-    border: solid black 1px;
     display: flex;
     flex-wrap: wrap;
+    border: 5px, solid, black;
 }
 
 .grid div {
@@ -24,5 +24,13 @@ body {
 }
 
 .shooter {
+    background-color: green;
+}
+
+.laser {
+    background-color: orange;
+}
+
+.boom {
     background-color: red;
 }
