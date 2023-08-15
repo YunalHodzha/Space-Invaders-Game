@@ -1,36 +1,9 @@
-body {
-    display: flex;
-    justify-content: center;
-    align-items: auto;
-}
-
-.grid {
-    margin-top: 70px;
-    width: 700px;
-    height: 700px;
-    display: flex;
-    flex-wrap: wrap;
-    border: 1px solid black; 
-}
-
-.grid div {
-    width: 35px;
-    height: 35px;
-}
-
-.invader {
-    background-color: purple;
-    border-radius: 100%;
-}
-
-.shooter {
-    background-color: green;
-}
-
-.laser {
-    background-color: orange;
-}
-
-.boom {
-    background-color: red;
+#canvas1 {
+    border: 5px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
 }
