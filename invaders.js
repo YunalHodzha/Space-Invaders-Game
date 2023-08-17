@@ -1,5 +1,5 @@
-export { updateInvaders };
-import { CANVAS_WIDTH, ctx } from "./app.js";
+export { updateInvaders, invaders };
+import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx, handleGameOver } from "./app.js";
 
 const invaderImg = new Image();
 invaderImg.src = './images/invader1.png';
@@ -24,34 +24,39 @@ for (let row = 0; row < numRows; row++) {
 }
 
 let invaderDirection = 1;
-const invaderSpeed = 4;
+const invaderSpeed = 40;
 
 
-function updateInvaders() {
+function updateInvaders(isOver) {
+    if (invaders[invaders.length - 1].y + invaders[invaders.length - 1].height < CANVAS_HEIGHT) {
 
-    invaders.forEach((invader) => {
-        if (invader.isAlive) {
-            invader.x += invaderSpeed * invaderDirection;
-        }
-    })
-
-    invaders.forEach((invader) => {
-        if (invader.x + invader.width > CANVAS_WIDTH - 50 || invader.x < 50) {
-            invaderDirection *= -1;
-
-            invaders.forEach((invader) => {
-                invader.y += 20;
-            })
-        }
-    });
-
-    renderInvaders()
-
-    function renderInvaders() {
         invaders.forEach((invader) => {
             if (invader.isAlive) {
-                ctx.drawImage(invader.img, invader.x, invader.y, invader.width, invader.height)
+                invader.x += invaderSpeed * invaderDirection;
             }
         })
+
+        invaders.forEach((invader) => {
+            if (invader.x + invader.width > CANVAS_WIDTH - 50 || invader.x < 50) {
+                invaderDirection *= -1;
+
+                invaders.forEach((invader) => {
+                    invader.y += 20;
+                })
+            }
+        });
+    } else {
+        handleGameOver();
     }
+
+    renderInvaders();
 }
+
+function renderInvaders() {
+    invaders.forEach((invader) => {
+        if (invader.isAlive) {
+            ctx.drawImage(invader.img, invader.x, invader.y, invader.width, invader.height)
+        }
+    })
+}
+
