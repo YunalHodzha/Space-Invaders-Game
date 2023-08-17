@@ -1,5 +1,5 @@
-import { player, laserShoot, updateLasers } from "./player.js";
-import { updateInvaders } from "./invaders.js";
+import { player, laserShoot, updateLasers, laserBullets } from "./player.js";
+import { updateInvaders, invaders } from "./invaders.js";
 export { CANVAS_WIDTH, CANVAS_HEIGHT, ctx, gameInfo, handleGameOver }
 
 const canvas = document.getElementById('canvas1');
@@ -27,27 +27,24 @@ window.addEventListener("keyup", (event) => {
 
 const backGroundImage = new Image();
 backGroundImage.src = './images/backGround.png'
-
+const collisionImage = new Image();
+collisionImage.src = './images/explosion.png'
 
 
 function game(isOver) {
-    
+
 
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.drawImage(backGroundImage, 0, 0, 3000, 2000, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     update();
     updateLasers();
-
+    detectCollision();
 
     ctx.drawImage(player.img, player.x, player.y, player.width, player.height);
     updateInvaders(isOver);
 
-    if(isOver === false ){
-        console.log(isOver)
-    } if(isOver === true) {
-        console.log(isOver)
-    }
+
 
     function update() {
         if (keyState["ArrowLeft"] && player.x > 0) {
@@ -68,11 +65,32 @@ function game(isOver) {
     }
 
     requestAnimationFrame(game)
-}
+} 
 
 game(isOver)
 
 function handleGameOver() {
-    gameInfo.textContent = "GAME OVER";
+    if (invaders.length === 0) {
+        gameInfo.textContent = "YOU WON!"
+    } else {
+        gameInfo.textContent = "GAME OVER";
+    }
+
 }
 
+function detectCollision() {
+    laserBullets.forEach((laser) => {
+        invaders.forEach((invader) => {
+            if (invader.isAlive &&
+                laser.x > invader.x &&
+                laser.x < invader.x + invader.width &&
+                laser.y > invader.y &&
+                laser.y < invader.y + invader.height
+            ) {
+                invader.isAlive = false;
+                laser.isAlive = false;
+                ctx.drawImage(collisionImage, invader.x, invader.y, invader.width, invader.height)
+            }
+        })
+    })
+}

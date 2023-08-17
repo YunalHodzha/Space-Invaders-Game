@@ -1,4 +1,4 @@
-export { player, laserShoot, updateLasers };
+export { player, laserShoot, updateLasers, laserBullets};
 import { ctx } from "./app.js";
 
 const rocketImg = new Image();
