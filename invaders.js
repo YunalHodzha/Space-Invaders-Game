@@ -1,6 +1,6 @@
 export { updateInvaders, invaders };
 import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx, handleGameOver } from "./app.js";
-import { laserBullets } from "./player.js";
+import { player } from "./player.js";
 
 const invaderImg = new Image();
 invaderImg.src = './images/invader1.png';
@@ -20,25 +20,31 @@ for (let row = 0; row < numRows; row++) {
             width: invaderWidth,
             height: invaderHeight,
             isAlive: true,
+            direction: 1,
+            speed: 8
         });
     }
 }
-  
-let invaderDirection = 1;
-const invaderSpeed = 8;
-
 
 function updateInvaders() {
     if (invaders.length !== 0 && invaders[invaders.length - 1].y + invaders[invaders.length - 1].height < CANVAS_HEIGHT) {
 
         invaders.forEach((invader) => {
-            invader.x += invaderSpeed * invaderDirection;
+            invader.x += invader.speed * invader.direction;
 
             if (invader.x + invader.width >= CANVAS_WIDTH - 50 || invader.x < 50) {
-                invaderDirection *= -1;
+                invader.direction *= -1;
                 invaders.forEach((invader) => {
                     invader.y += 80;
                 })
+            }
+
+            if (invader.isAlive &
+                player.x > invader.x &&
+                player.x < invader.x + invader.width &&
+                player.y > invader.y &&
+                player.y < invader.y + invader.height) {
+                handleGameOver();
             }
         })
 

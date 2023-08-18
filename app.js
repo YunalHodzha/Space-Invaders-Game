@@ -1,5 +1,6 @@
-import { player, laserShoot, updateLasers, laserBullets } from "./player.js";
+import { player } from "./player.js";
 import { updateInvaders, invaders } from "./invaders.js";
+import { laserBullets, laserShoot, updateLasers } from "./laser.js";
 export { CANVAS_WIDTH, CANVAS_HEIGHT, ctx, gameInfo, handleGameOver }
 
 const canvas = document.getElementById('canvas1');
@@ -7,7 +8,6 @@ const ctx = canvas.getContext('2d');
 const CANVAS_WIDTH = canvas.width = 3000 / 1.5;
 const CANVAS_HEIGHT = canvas.height = 2000 / 1.5;
 const gameInfo = document.getElementById('gameInfo');
-let isOver = false;
 
 const keyState = {};
 window.addEventListener('keydown', (event) => {
@@ -31,9 +31,7 @@ const collisionImage = new Image();
 collisionImage.src = './images/explosion.png'
 
 
-function game(isOver) {
-
-
+function game() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.drawImage(backGroundImage, 0, 0, 3000, 2000, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -42,7 +40,7 @@ function game(isOver) {
     detectCollision();
 
     ctx.drawImage(player.img, player.x, player.y, player.width, player.height);
-    updateInvaders(isOver);
+    updateInvaders();
 
 
 
@@ -65,11 +63,12 @@ function game(isOver) {
     }
 
     requestAnimationFrame(game)
-} 
+}
 
-game(isOver)
+game()
 
 function handleGameOver() {
+
     if (invaders.length === 0) {
         gameInfo.textContent = "YOU WON!"
     } else {
