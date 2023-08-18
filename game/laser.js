@@ -1,9 +1,10 @@
-import { ctx } from "./app.js";
-import { player } from "./player.js";
+import { ctx } from "../app.js";
+import { player } from "./player/playerData.js";
 export {laserShoot, updateLasers, laserBullets};
 
 const laserImg = new Image();
 laserImg.src = './images/laser.png';
+
 let laserBullets = [];
 let lastLaserTime = 0;
 const laserCooldown = 200;

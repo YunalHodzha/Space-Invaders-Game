@@ -1,6 +1,6 @@
 export { updateInvaders, invaders };
-import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx, handleGameOver } from "./app.js";
-import { player } from "./player.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx, handleGame } from "../app.js";
+import { player } from "./player/playerData.js";
 
 const invaderImg = new Image();
 invaderImg.src = './images/invader1.png';
@@ -10,6 +10,8 @@ const invaderWidth = 150;
 const invaderHeight = 130;
 const numRows = 3;
 const numCols = 6;
+let direction = 1;
+const speed = 8;
 
 for (let row = 0; row < numRows; row++) {
     for (let col = 0; col < numCols; col++) {
@@ -20,8 +22,6 @@ for (let row = 0; row < numRows; row++) {
             width: invaderWidth,
             height: invaderHeight,
             isAlive: true,
-            direction: 1,
-            speed: 8
         });
     }
 }
@@ -30,10 +30,10 @@ function updateInvaders() {
     if (invaders.length !== 0 && invaders[invaders.length - 1].y + invaders[invaders.length - 1].height < CANVAS_HEIGHT) {
 
         invaders.forEach((invader) => {
-            invader.x += invader.speed * invader.direction;
+            invader.x += speed * direction;
 
             if (invader.x + invader.width >= CANVAS_WIDTH - 50 || invader.x < 50) {
-                invader.direction *= -1;
+                direction *= -1;
                 invaders.forEach((invader) => {
                     invader.y += 80;
                 })
@@ -44,7 +44,7 @@ function updateInvaders() {
                 player.x < invader.x + invader.width &&
                 player.y > invader.y &&
                 player.y < invader.y + invader.height) {
-                handleGameOver();
+                handleGame();
             }
         })
 
@@ -52,7 +52,7 @@ function updateInvaders() {
         invaders = invaders.filter((invader) => invader.isAlive)
 
     } else {
-        handleGameOver();
+        handleGame();
     }
 
     renderInvaders();
