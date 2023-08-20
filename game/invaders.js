@@ -1,34 +1,51 @@
 export { updateInvaders, invaders };
-import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx, handleGame } from "../app.js";
-import { player } from "./player/playerData.js";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx } from "../app.js";
 
 const invaderImg = new Image();
 invaderImg.src = './images/invader1.png';
 
+const levels = [
+    {
+        numRows: 3,
+        numCols: 6,
+        invaderSpeed: 8
+    },
+    {
+        numRows: 4,
+        numCols: 8,
+        invaderSpeed: 10
+    }
+]
+
+let currentLevel = 0;
 let invaders = [];
+
 const invaderWidth = 150;
 const invaderHeight = 130;
-const numRows = 3;
-const numCols = 6;
 let direction = 1;
-const speed = 8;
 
-for (let row = 0; row < numRows; row++) {
-    for (let col = 0; col < numCols; col++) {
-        invaders.push({
-            img: invaderImg,
-            x: col * (invaderWidth + 30) + invaderWidth,
-            y: row * (invaderHeight + 10) + 30,
-            width: invaderWidth,
-            height: invaderHeight,
-            isAlive: true,
-        });
+
+function loadLevel(levelIndex) {
+    const level = levels[levelIndex];
+
+    for (let row = 0; row < level.numRows; row++) {
+        for (let col = 0; col < level.numCols; col++) {
+            invaders.push({
+                img: invaderImg,
+                x: col * (invaderWidth + 30) + invaderWidth,
+                y: row * (invaderHeight + 10) + 30,
+                width: invaderWidth,
+                height: invaderHeight,
+                speed: level.speed,
+                isAlive: true,
+            });
+        }
     }
 }
 
-function updateInvaders() {
-    if (invaders.length !== 0 && invaders[invaders.length - 1].y + invaders[invaders.length - 1].height < CANVAS_HEIGHT) {
 
+function updateInvaders() {
+    {
         invaders.forEach((invader) => {
             invader.x += speed * direction;
 
@@ -38,21 +55,9 @@ function updateInvaders() {
                     invader.y += 80;
                 })
             }
-
-            if (invader.isAlive &
-                player.x > invader.x &&
-                player.x < invader.x + invader.width &&
-                player.y > invader.y &&
-                player.y < invader.y + invader.height) {
-                handleGame();
-            }
         })
 
-
         invaders = invaders.filter((invader) => invader.isAlive)
-
-    } else {
-        handleGame();
     }
 
     renderInvaders();

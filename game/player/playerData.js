@@ -11,4 +11,5 @@ const player = {
     width: 180,
     height: 150,
     speed: 20,
+    score: 0
 }
