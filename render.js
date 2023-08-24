@@ -33,6 +33,8 @@ function endGameDraw(over, win) {
             ctx.font = '100px Arial'
             ctx.fillText('YOU LOSE!', 700, 300);
             ctx.fillText('Your Score: ' + player.score, 700, 400);
+            updateInvaders();
+            updateLasers();
         }
     }
 }

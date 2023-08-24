@@ -18,7 +18,11 @@ function laserCollision(image) {
                 invader.isAlive = false;
                 laser.isAlive = false;
                 player.score += 1;
+                if(image instanceof HTMLImageElement) {
                 ctx.drawImage(image, invader.x, invader.y, invader.width, invader.height)
+                } else {
+                    console.error("Invalid 'image' parameter for drawImage");
+                }
             }
         })
     })
