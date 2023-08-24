@@ -1,9 +1,9 @@
 import { player } from "./game/player/playerData.js";
 import { updatePlayer } from "./game/player/playerMovement.js";
-//import { invaders } from "./game/invaders.js";
+import { invaders, levels, loadLevel } from "./game/invaders.js";
 import { endGameDraw, render } from "./render.js";
 import { laserCollision } from "./game/laserCollision.js";
-export { CANVAS_WIDTH, CANVAS_HEIGHT, ctx, gameInfo }
+export { CANVAS_WIDTH, CANVAS_HEIGHT, ctx, gameInfo, levelNum }
 
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
@@ -15,9 +15,10 @@ ctx.fillStyle = "white";
 
 let isOver = false;
 let isWin = false;
+let levelNum = 0;
 
 function game() {
-    //handleGame();
+    handleGame();
 
     if (!isOver) {
         laserCollision();
@@ -31,27 +32,32 @@ function game() {
 }
 game();
 
-// function handleGame() {
+function handleGame() {
 
-//     if (invaders.length === 0) {
-//         isOver = true;
-//         isWin = true;
-//         return;
-//     } else if (invaders[invaders.length - 1].y + invaders[invaders.length - 1].height > CANVAS_HEIGHT) {
-//         isOver = true;
-//         isWin = false;
-//         return
-//     }
+    if (invaders.length === 0) {
+        if (levels.length === levelNum -1) {
+            isOver = true;
+            isWin = true;
+            return;
+        }
+        loadLevel(levelNum);
+        levelNum++;
+        
+    } else if (invaders[invaders.length - 1].y + invaders[invaders.length - 1].height > CANVAS_HEIGHT) {
+        isOver = true;
+        isWin = false;
+        return
+    }
 
-//     invaders.forEach((invader) => {
-//         if (invader.isAlive &
-//             player.x > invader.x &&
-//             player.x < invader.x + invader.width &&
-//             player.y > invader.y &&
-//             player.y < invader.y + invader.height) {
-//             isOver = true;
-//             isWin = false;
-//             return
-//         }
-//     })
-// }
+        invaders.forEach((invader) => {
+            if (invader.isAlive &
+                player.x > invader.x - (invader.width / 1)&&
+                player.x < invader.x + (invader.width / 2) &&
+                player.y > invader.y &&
+                player.y < invader.y + invader.height) {
+                isOver = true;
+                isWin = false;
+                return
+            }
+        })
+}

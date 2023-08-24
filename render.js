@@ -1,7 +1,7 @@
 export { render, endGameDraw };
-import { ctx, CANVAS_WIDTH, CANVAS_HEIGHT } from "./app.js";
+import { ctx, CANVAS_WIDTH, CANVAS_HEIGHT, levelNum } from "./app.js";
 import { updateLasers } from "./game/laser.js";
-//import { updateInvaders } from "./game/invaders.js";
+import { updateInvaders } from "./game/invaders.js";
 import { player } from "./game/player/playerData.js";
 import { laserCollision } from "./game/laserCollision.js";
 
@@ -10,10 +10,9 @@ backGroundImage.src = './images/backGround.png'
 const collisionImage = new Image();
 collisionImage.src = './images/explosion.png'
 
-
 function render() {
     endGameDraw();
-   // updateInvaders();
+    updateInvaders();
     updateLasers();
     laserCollision(collisionImage);
     drawScore()
@@ -40,5 +39,5 @@ function endGameDraw(over, win) {
 
 function drawScore() {
     ctx.fillText('Score: ' + player.score, 20, 50);
-
+    ctx.fillText('Level: ' + levelNum, 20, 110)
 }
