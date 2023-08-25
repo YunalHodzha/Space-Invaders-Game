@@ -1,4 +1,4 @@
-export { updateInvaders, invaders, levels, loadLevel, enemyBullets};
+export { updateInvaders, invaders, levels, loadLevel, enemyBullets };
 import { CANVAS_HEIGHT, CANVAS_WIDTH, ctx } from "../app.js";
 
 
@@ -106,7 +106,7 @@ function updateInvaders() {
                 y: invader.y + invader.height,
                 width: 100,
                 height: 100,
-                speed: 5, // Adjust bullet speed as needed
+                speed: (Math.random() * (10 - 5) + 5), // Adjust bullet speed as needed
                 // Other bullet properties
             };
             enemyBullets.push(bullet);
